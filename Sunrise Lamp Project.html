@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Sunrise Lamp Project</title></head>
+<body style="background-image: url(graph.jpg);"><h1>Sunrise Lamp Project</h1>Started 8/15/2008<br><br>With
+my new job and the start of the school year and with winter coming soon
+in Minnesota getting up in the morning when it's really dark out can be
+a chore also my wife is from a warm sunny country and misses the sun in
+the morning. I remembered I'd seen some <a href="http://www.biobrite.com/products.php?category=SunRise%20Clocks">lamps</a>
+which turn on the morning slowly and use special natural light bulbs
+and I looked into purchasing one but all the ones I found were
+expensive and did not get very good customer reviews and the
+replacement bulbs were also expensive. They also didn't even have basic
+functionality or control that my current alarm clock radio has like
+weekday only operation or even a radio on some. So I looked into
+finding a way to do things myself.<br><br>The first place I looked was <a href="http://www.smarthome.com">SmartHome</a>
+because I had purchase some home automation stuff from them before and
+I knew they sold power outlet controller lighting products but the
+best&nbsp;I could find was to preset a device for a max 9 minute <a href="http://www.smarthome.com/2456d3.html">adjustable ramp rate</a> brighten cycle and that would be for anytime you wanted to turn on the light. I wanted more control than that. I found a <a href="http://www.smarthome.com/1090.html">couple</a> <a href="http://www.smarthome.com/2456s3t.html">timers</a> which might work but again I didn't have a lot of control. It looked like you could use the <a href="http://www.smarthome.com/2496.html">PC</a> but then it needs to be on all the time. These solutions would also cost more than just buying a lamp. So I continued to look.<br><br>Finally I thought I'd try the manufacturer of x10 devices directly. Oh man what a garish <a href="http://www.x10.com/">web site</a>, it's
+sure hard to look at. These are the guys that made me swear off all
+Internet advertising with that damn x10 camera banner ad along with catch the monkey ad from a few years past.<br><br>The first thing I found was the <a href="http://www.x10.com/automation/ck18a_s_ps32.html">firecracker</a>, a direct serial device that allows you program x10 devices directly. There was not much direct <a href="ftp://ftp.x10.com/pub/applications/firecracker/ck18a.exe">support</a> but there were <a href="http://blogs.msdn.com/coding4fun/archive/2006/10/31/916492.aspx">users</a> <a href="http://misterhouse.wikispaces.com/">making</a> it <a href="http://www.linuxha.com/">work</a> for them and it was cheap. But it would probably require quite a bit of work to make it do what I wanted.<br><br>But, looking at their other products a bit closer I found they had a <a href="http://www.activehomepro.com/activehome-pro.html">programmable USB controller</a>
+that looked like it would do the trick and much cheaper than the
+smarthome solutions. They also seem to have a sale everyday with
+different stuff. I decided I'd buy a package for $100 with a bunch of
+different controllers and at least three dimmable lighting plugin
+controllers and see what I could do, if it failed I could a least play
+with the technology. I thought I could maybe purchase 3 lights (red,
+green, and blue) and even recreate an accurate simulation of the colors
+of the sky during sunrise.<br><br>They arrived in a big box and inside
+were lot's of little blue boxes containing an assortment of &nbsp;power
+line control devices (sorry no picture but they were cute). The
+software install was all through the Internet and didn't go really
+smoothly (I rather they just included a disk) but I did get things
+working eventually after trying it again and the <a href="http://www.x10community.com/forums/index.php?board=2.0">x10 forums</a>
+people did provide prompt support so no complaints there. The control
+device is USB and you download the macros and timers to the device and
+the batteries in the device retain the programming through power
+outages. It also knows about sunrise and sunset and holidays throughout
+the year which can be fully customized, better than my alarm clock. <br><br>Getting
+started with programming the device I plugged a lamp into a module next
+to my desk and gave it a go. Using the dim and brighten macro commands
+resulted in some problematic behavior. The device would either bright
+or dim from full on or full off every time you sent it a command. Not
+exactly what I had in mind for a smooth transition from off to on.<br><br><a href="program.jpg"><img style="border: 2px solid ; width: 267px; height: 191px;" src="program%20small.jpg" alt=""></a><br><br>Back to the Internet resulted in some useful information on the devices. There are apparently <a href="http://newsgroups.derkeiler.com/Archive/Comp/comp.home.automation/2007-07/msg00162.html">two versions of the LM465</a> device the older one worked as I envisioned and the new one didn't but the new one also support some <a href="ftp://ftp.x10.com/pub/manuals/xtdcode.pdf">extended command codes</a> that would do what I <a href="http://www.nabble.com/X10-Extended-commands-td16875690.html">wanted</a>.
+Using the extended code command byte of 0x31 and then data byte with
+the dim level (0-0x3f) I could finally control the device as I wanted.
+I programmed up a macro and ran a test with success. <br><br><a href="100_3425%20%28Large%29.JPG"><img style="border: 2px solid ; width: 288px; height: 384px;" src="100_3425.JPG" alt=""></a><a href="100_3426%20%28Large%29.JPG"><img style="border: 2px solid ; width: 512px; height: 384px;" src="100_3426.JPG" alt=""></a><br><br>You cannot control CF bulbs this way so you can't conserve energy. For CF bulbs you need to just use the <a href="http://www.x10wirelesshome.com/modules/x10_appliance_module_am466.html">appliance module</a>
+which switches with a clunk and does not dim, not too friendly for the
+bedroom. A visit to Menards resulted in a full spectrum 60W standard
+bulb for $4 which is much cheaper than the replacement bulbs in those
+sunrise lamps. I also found a set of three colored bulbs (red, green,
+blue). I guess I can build a lamp and mount all the bulbs inside and
+set up the controller to simulate the sunrise colors but that's another
+project at this point I think.<br><br><a href="100_3427%20%28Large%29.JPG"><img style="border: 2px solid ; width: 288px; height: 384px;" src="100_3427.JPG" alt=""></a><a href="100_3428%20%28Large%29.JPG"><img style="border: 2px solid ; width: 288px; height: 384px;" src="100_3428.JPG" alt=""></a><br><br>I
+installed the controller unit and the lamp module and a wall switch
+module in my sons room to get him up in the morning for school. It
+worked great for my lamp but for some reason not in my sons room. Back
+to the Internet again resulted in some more information that the
+electricity in a house are usually split in to <a href="http://www.hammerzone.com/archives/elect/panel/breaker/install.htm">two sides</a>
+and these electric circuits are not connected. You need to install a
+power coupler between the two sides to be able to send signals from one
+half of the house to the other. You can purchase a special adapter that
+plugs into a 240V 30A <a href="http://www.smarthome.com/4816b2.html">dryer socket</a> or use a <a href="http://www.smarthomeusa.com/ShopByManufacturer/ACT/Item/CP000/">unit&nbsp; installed next to the breaker box</a>. I didn't have any 240V 30A dryer sockets but I did have a <a href="http://www.levitonproducts.com/catalog/dept_id_973.htm?sid=0F7A7CD7DE770D60CE33D6C3C9FD43EE&amp;pid=1208">240V 50A Nema 6-50R</a>
+socket for a welder from the previous owner. Investigating the socket
+reveled that the two plugs were connected to the two sides of the house
+and the ground plug was incorrectly connected to the neutral. The
+actual ground line was left loose in the socket box and it used some
+massive power cables. The breaker box power coupler unit <a href="http://www.act-solutions.com/PCC/pdfs/PCCSpecs/CA000_spec.pdf">installation</a> <a href="http://www.act-solutions.com/PCC/pdfs/PCCInst/cp000.pdf">required</a>
+connection between the two sides and neutral so this was advantageous
+for my case but was wrong and made me wonder about the wiring skills of
+the previous owner. I would probably want to rewire the box correctly
+before plugging in an actual welder and making use of the socket for a
+50A device. For the moment I will use it as is and make sure I put a
+note on it for anyone who might use it in the future.<br><br><a href="100_3424%20%28Large%29.JPG"><img style="border: 2px solid ; width: 288px; height: 384px;" src="100_3424.JPG" alt=""></a><br><br>After
+ording the coupler and a trip to Home Depot resulted in all the parts
+needed to make a coupler dongle to plug into my welder socket. I was
+able to assemble it without too much difficultly but I needed to test
+things before I plugged it in. I verified that the line was 240V across
+the plugs and that neutral to each plug was 120V. It's always a little
+nerve racking when dealing with 240V which can <strong style="color: rgb(204, 0, 0);">kill you</strong> and especially a socket capable of 50A so be careful and <strong>get someone who knows what they are doing to help you if you have any doubts</strong>.
+I turned it off again and plugged in the device and then turned on the
+circuit breaker. No sparks at least. Testing the lighting control from
+one side of the house to the other now worked. I now have a sunrise
+lamp capability throughout the house and can control a few other lamps
+as well to turn on at sunset and off later in the evening or whatever a
+much better deal than just buying the sunlight lamp radio. I still need
+to work on the sunrise color simulator.<br><pre wrap="">$13   CP000 Passive Power Coupler (smarthomeusa not to be confused with smarthome which costs more)<br>$4    60W Sunlight Light bulb<br>$12   25W Red, Green and Blue Light Bulbs<br>$15   6-50R Nema plug (home depot)<br>$0.50 1 foot 3 wire power cable (home depot) <br>$1    Electrical box (home depot) <br>$0.50 Electrical box cover (home depot) <br>$1    Electrical box cable clamp (home depot) <br>$100  Active Home Pro starter package (x10)<br>        1 Active Home Pro Software plus all modules<br>        2 Appliance Modules<br>        1 Programmable USB Interface<br>        1 Screw-in Lamp Module<br>        3 Dimming Lamp Modules<br>        1 Maxi Controller<br>        2 Dimming Wall Switch Modules<br>$147 total</pre><a href="100_3429%20%28Large%29.JPG"><img style="border: 2px solid ; width: 288px; height: 384px;" src="100_3429.JPG" alt=""></a><br><br>Another successful project.<br><br><a href="index.html">back</a><br></body></html>

@@ -1,0 +1,130 @@
+diff -crB mameorig/src/emu/layout/horizont.lay mame/src/emu/layout/horizont.lay
+*** mameorig/src/emu/layout/horizont.lay	2007-12-17 16:20:00.000000000 -0600
+--- mame/src/emu/layout/horizont.lay	2013-02-12 21:21:00.942468700 -0600
+***************
+*** 12,17 ****
+--- 12,26 ----
+  		</screen>
+  	</view>
+  
++ 	<element name="marquee">
++ 		<image file="~basename~.png"/>
++ 	</element>
++ 	<view name="Marquee_Only">
++ 		<marquee element="marquee">
++ 			<bounds x="0" y="0" width="4" height="3" />
++ 		</marquee>
++ 	</view>
++ 
+  	<view name="Cocktail">
+  		<screen index="0">
+  			<bounds x="0" y="-3.03" width="4" height="3" />
+diff -crB mameorig/src/emu/layout/vertical.lay mame/src/emu/layout/vertical.lay
+*** mameorig/src/emu/layout/vertical.lay	2010-02-12 00:59:38.000000000 -0600
+--- mame/src/emu/layout/vertical.lay	2013-02-12 21:20:50.902894500 -0600
+***************
+*** 12,17 ****
+--- 12,26 ----
+  		</screen>
+  	</view>
+  
++ 	<element name="marquee">
++ 		<image file="~basename~.png"/>
++ 	</element>
++ 	<view name="Marquee_Only">
++ 		<marquee element="marquee">
++ 			<bounds x="0" y="0" width="4" height="3" />
++ 		</marquee>
++ 	</view>
++ 
+  	<view name="Cocktail">
+  		<screen index="0">
+  			<bounds x="-3.03" y="0" width="3" height="4" />
+diff -crB mameorig/src/emu/rendlay.c mame/src/emu/rendlay.c
+*** mameorig/src/emu/rendlay.c	2013-01-11 08:32:48.000000000 -0600
+--- mame/src/emu/rendlay.c	2013-02-12 21:27:41.472377700 -0600
+***************
+*** 188,193 ****
+--- 188,195 ----
+  //  a variable in an XML attribute
+  //-------------------------------------------------
+  
++ static const char * parent = NULL;
++ 
+  static int get_variable_value(running_machine &machine, const char *string, char **outputptr)
+  {
+  	char temp[100];
+***************
+*** 236,241 ****
+--- 238,259 ----
+  		}
+  	}
+  
++ 	sprintf(temp, "~basename~");
++ 	if (!strncmp(string, "~basename~", strlen(temp)))
++ 	{
++ 		parent = machine.system().parent;
++ 		*outputptr += sprintf(*outputptr, "%s", machine.basename());
++ 		return strlen(temp);
++ 	}
++ 
++ 
++ 	sprintf(temp, "~parent~");
++ 	if (!strncmp(string, "~parent~", strlen(temp)))
++ 	{
++ 		*outputptr += sprintf(*outputptr, "%s", machine.system().parent);
++ 		return strlen(temp);
++ 	}
++ 
+  	// default: copy the first character and continue
+  	**outputptr = *string;
+  	*outputptr += 1;
+***************
+*** 1184,1189 ****
+--- 1202,1208 ----
+  {
+  	// load the basic bitmap
+  	assert(m_file[0] != NULL);
++ 
+  	m_hasalpha[0] = render_load_png(m_bitmap[0], *m_file[0], m_dirname, m_imagefile[0]);
+  
+  	// load the alpha bitmap if specified
+***************
+*** 1193,1204 ****
+  	// if we can't load the bitmap, allocate a dummy one and report an error
+  	if (!m_bitmap[0].valid())
+  	{
+! 		// draw some stripes in the bitmap
+! 		m_bitmap[0].allocate(100, 100);
+! 		m_bitmap[0].fill(0);
+! 		for (int step = 0; step < 100; step += 25)
+! 			for (int line = 0; line < 100; line++)
+! 				m_bitmap[0].pix32((step + line) % 100, line % 100) = MAKE_ARGB(0xff,0xff,0xff,0xff);
+  
+  		// log an error
+  		if (!m_alphafile[0])
+--- 1212,1235 ----
+  	// if we can't load the bitmap, allocate a dummy one and report an error
+  	if (!m_bitmap[0].valid())
+  	{
+! 		// load a default image
+! 		if (parent != NULL)
+! 			m_hasalpha[0] = render_load_png(m_bitmap[0], *m_file[0], m_dirname, parent);
+! 		if (!m_bitmap[0].valid())
+! 		{
+! 			// load a default image
+! 			m_hasalpha[0] = render_load_png(m_bitmap[0], *m_file[0], m_dirname, "default.png");
+! 			if (!m_bitmap[0].valid())
+! 			{
+! 				// draw some stripes in the bitmap
+! 				m_bitmap[0].allocate(100, 100);
+! 				m_bitmap[0].fill(0);
+! 				// just make it blank
+! 				//for (int step = 0; step < 100; step += 25)
+! 				//	for (int line = 0; line < 100; line++)
+! 				//		m_bitmap[0].pix32((step + line) % 100, line % 100) = MAKE_ARGB(0xff,0xff,0xff,0xff);
+! 			}
+! 		}
+  
+  		// log an error
+  		if (!m_alphafile[0])
